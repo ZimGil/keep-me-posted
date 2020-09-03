@@ -1,0 +1,15 @@
+{
+  "name": "keep-me-posted",
+  "version": "0.0.0",
+  "description": "Keep yourself posted for website updates",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ZimGil",
+  "license": "MIT",
+  "dependencies": {
+    "messaging-api-telegram": "^0.8.2",
+    "puppeteer": "^5.2.1"
+  }
+}
