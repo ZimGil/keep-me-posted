@@ -10,6 +10,18 @@ if (os.arch().includes('arm')) {
   browserOptions.executablePath = 'chromium-browser';
 }
 
+/**
+ * Execute your callback on a Webpage, sends a Telegram Message using your Bot.
+ *
+ * @param {String}   URL           Webpage URL on which the callback will be executed.
+ * @param {Object}   settings       Settings for telegram bot usage or return value.
+ * @param {string}   settings.telegramBotToken Telegram Bot API Token (from BotFather).
+ * @param {string | number} settings.cahtId     Your telegram chat ID.
+ * @param {function} callback Function to execute on the Webpage.
+ * @param {...any} [args] Parameters for the callback function.
+ *
+ * @return {Promise<string>} Promise object that resolves with the Message return by the Callback function.
+ */
 module.exports = async function keepMePosted(URL, settings, callback, ...args) {
   const browser = await puppeteer.launch(browserOptions);
   const page = await browser.newPage();
