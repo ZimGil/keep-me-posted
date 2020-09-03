@@ -30,7 +30,7 @@ module.exports = async function keepMePosted(URL, settings, callback, ...args) {
   let message = await page.evaluate(callback, ...args);
   await browser.close();
 
-  if (settings.type === 'telegram') {
+  if (settings.telegramBotToken && settings.cahtId) {
     const client = Telegram.TelegramClient.connect(settings.telegramBotToken);
     message = message.replace(/[_\*\[\]\(\)~`>#+-=|{}\.!]/g, (s) => `\\${s}`);
     const ids = Array.isArray(settings.cahtId) ? settings.cahtId : [settings.cahtId];
