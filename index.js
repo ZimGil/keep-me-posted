@@ -24,26 +24,35 @@ if (os.arch().includes('arm')) {
  * @return {Promise<string>} Promise object that resolves with the Message or Object returned by the Callback function.
  */
 async function keepMePosted(URL, settings, callback, ...args) {
-  const browser = await puppeteer.launch(browserOptions);
-  const page = await browser.newPage();
-  await page.goto(URL);
-  await page.addScriptTag({ url: lodashCdnUrl });
-  const res = await page.evaluate(callback, ...args);
-  await browser.close();
-
-  if (typeof res === 'string') {
-    res = { message: res };
+  let browser;
+  try {
+    browser = await puppeteer.launch(browserOptions);
+  } catch (e) {
+    throw e;
   }
 
-  if (settings.telegramBotToken && settings.chatId) {
-    const client = Telegram.TelegramClient.connect(settings.telegramBotToken);
-    res.message = res.message.replace(/[_\*\[\]\(\)~`>#+-=|{}\.!]/g, (s) => `\\${s}`);
-    const ids = Array.isArray(settings.chatId) ? settings.chatId : [settings.chatId];
-    ids.forEach(async (id) => await client.sendMessage(id, res.message, { parse_mode: 'MarkdownV2' }));
+  try {
+    const page = await browser.newPage();
+    await page.goto(URL);
+    let res = await page.evaluate(callback, ...args);
+    await browser.close();
+
+    if (typeof res === 'string') {
+      res = { message: res };
+    }
+
+    if (settings.telegramBotToken && settings.chatId) {
+      const client = Telegram.TelegramClient.connect(settings.telegramBotToken);
+      res.message = res.message.replace(/[_\*\[\]\(\)~`>#+-=|{}\.!]/g, (s) => `\\${s}`);
+      const ids = Array.isArray(settings.chatId) ? settings.chatId : [settings.chatId];
+      ids.forEach(async (id) => await client.sendMessage(id, res.message, { parse_mode: 'MarkdownV2' }));
+    }
+
     return res;
+  } catch (e) {
+    browser.close();
+    throw e;
   }
-
-  return res;
 }
 
 module.exports = keepMePosted;
