@@ -24,22 +24,23 @@ if (os.arch().includes('arm')) {
  * @return {Promise<string>} Promise object that resolves with the Message or Object returned by the Callback function.
  */
 async function keepMePosted(URL, settings, callback, ...args) {
-  const browser = settings.browser || await puppeteer.launch(browserOptions);
+  const options = Object.assign({}, settings);
+  const browser = options.browser || await puppeteer.launch(browserOptions);
   try {
     const page = await browser.newPage();
     await page.goto(URL);
     const res = await page.evaluate(callback, ...args);
     const message = getMessageFromResult(res);
 
-    if (message && settings.telegramBotToken && settings.chatId) {
-      const client = Telegram.TelegramClient.connect(settings.telegramBotToken);
-      const ids = Array.isArray(settings.chatId) ? settings.chatId : [settings.chatId];
+    if (message && options.telegramBotToken && options.chatId) {
+      const client = Telegram.TelegramClient.connect(options.telegramBotToken);
+      const ids = Array.isArray(options.chatId) ? options.chatId : [options.chatId];
       ids.forEach(async (id) => await client.sendMessage(id, message, { parse_mode: 'MarkdownV2' }));
     }
 
     return res;
   } finally {
-    if (!settings.browser) {
+    if (!options.browser) {
       browser.close();
     }
   }
