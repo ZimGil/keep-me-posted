@@ -11,8 +11,8 @@ Available params:
  * **URL** (_String_) Webpage URL on which the callback will be executed.
  * **settings** (_Object_) Settings for telegram bot usage or return value.
    * **settings.telegramBotToken** (_string_) Telegram Bot API Token (from BotFather).
-   * **settings.chatId** (_string | number | string[] | number[]_) Your telegram chat ID.
- * **callback** (_function_) Function to execute on the Webpage. Should return a message or an object containing a 'message' property.
+   * **settings.chatId** (_string | number | string[] | number[]_) Your telegram chat ID or IDs.
+ * **callback** (_function(...args)_) Function to execute on the Webpage. Should return a message or an object containing a 'message' property.
  * **[...args]** (_any[]_) Parameters for the callback function.
  
 > ***NOTE:*** The callback function is executed in the webpage scop and not in your application scop, you will be able to access the window object and the DOM but will not be able to access any of you variables. You can pass extra arguments and catch them as arguments in your callback function.
