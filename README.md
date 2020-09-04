@@ -1,6 +1,7 @@
 ﻿# keep-me-posted
 Execute code on a web page, send yourself a telegram message.
 
+
 ## Install
 `npm install https://github.com/ZimGil/keep-me-posted.git`
 
@@ -13,6 +14,8 @@ Available params:
    * **settings.chatId** (_string | number | string[] | number[]_) Your telegram chat ID.
  * **callback** (_function_) Function to execute on the Webpage. Should return a message or an object containing a 'message' property.
  * **[...args]** (_any[]_) Parameters for the callback function.
+ 
+> ***NOTE:*** The callback function is executed in the webpage scop and not in your application scop, you will be able to access the window object and the DOM but will not be able to access any of you variables. You can pass extra arguments and catch them as arguments in your callback function.
 
 
 ## Examples
