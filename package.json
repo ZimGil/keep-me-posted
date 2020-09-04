@@ -1,11 +1,14 @@
 {
   "name": "keep-me-posted",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "description": "Keep yourself posted for website updates",
+  "repository": "github:ZimGil/keep-me-posted",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [ "telegram-bot", "telegram"],
+  "bugs": "https://github.com/ZimGil/keep-me-posted/issues",
   "author": "ZimGil",
   "license": "MIT",
   "dependencies": {

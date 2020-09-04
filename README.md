@@ -3,7 +3,7 @@ Execute code on a web page, send yourself a telegram message.
 
 
 ## Install
-`npm install https://github.com/ZimGil/keep-me-posted.git`
+`npm install keep-me-posted`
 
 ## Usage
 Import the `keepMePosted` function from `'keep-me-posted'`
