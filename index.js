@@ -28,27 +28,31 @@ async function keepMePosted(URL, settings, callback, ...args) {
   try {
     const page = await browser.newPage();
     await page.goto(URL);
-    let res = await page.evaluate(callback, ...args);
+    const res = await page.evaluate(callback, ...args);
+    const message = getMessageFromResult(res);
 
-    if (typeof res === 'string') {
-      res = { message: res };
-    }
-
-    if (settings.telegramBotToken && settings.chatId) {
+    if (message && settings.telegramBotToken && settings.chatId) {
       const client = Telegram.TelegramClient.connect(settings.telegramBotToken);
-      res.message = res.message.replace(/[_\*\[\]\(\)~`>#+-=|{}\.!]/g, (s) => `\\${s}`);
       const ids = Array.isArray(settings.chatId) ? settings.chatId : [settings.chatId];
-      ids.forEach(async (id) => await client.sendMessage(id, res.message, { parse_mode: 'MarkdownV2' }));
+      ids.forEach(async (id) => await client.sendMessage(id, message, { parse_mode: 'MarkdownV2' }));
     }
 
     return res;
-  } catch (e) {
-    throw e;
   } finally {
     if (!settings.browser) {
       browser.close();
     }
   }
+}
+
+function getMessageFromResult(res) {
+  return  res && (typeof res === 'string' || (typeof res === 'object' && typeof res.message === 'string'))
+  ? escapeTelegramReservedChars(res.message)
+  : null;
+}
+
+function escapeTelegramReservedChars(msg) {
+  return msg.replace(/[_\*\[\]\(\)~`>#+-=|{}\.!]/g, (s) => `\\${s}`);
 }
 
 module.exports = keepMePosted;
