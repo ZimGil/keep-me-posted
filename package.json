@@ -1,6 +1,6 @@
 {
   "name": "keep-me-posted",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Keep yourself posted for website updates",
   "repository": "github:ZimGil/keep-me-posted",
   "main": "index.js",

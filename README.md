@@ -45,9 +45,10 @@ keepMePosted(URL, exec, settings, {a: 1});
 // This will return a Promise that will resolve with the object:
 // { message: 'Hi...', a: 11 }
 // The bot will send a message "Hi..."
-// Avoiding a message
 
-keepMePosted(URL, () => {a: 1}, settings);
+// Avoiding a message
+// return any non string value that does not contain a "message" property
+keepMePosted(URL, () => ({a: 1}), settings);
 // This will return a Promise that will resolve with the object:
 // { a: 1 }
 // The bot will not send a message
